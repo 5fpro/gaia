@@ -18,13 +18,16 @@ Bundler.require(*Rails.groups)
 
 Dotenv::Railtie.load
 
-module Myapp
+module Gaia
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    config.action_mailer.delivery_method = :amazon_ses
+    config.action_mailer.delivery_method = :aws_sdk
 
     # Disable some file generators
     config.generators.stylesheets = false

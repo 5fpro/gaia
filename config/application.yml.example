@@ -8,7 +8,7 @@ defaults: &defaults
     servers:
     - "<%= ENV['MEMCACHED_SERVER'] %>"
     options:
-      namespace: "<%= ENV['APP_NAME'] %>"
+      namespace: "<%= ENV['MEMCACHED_NAMESPACE'] %>"
       expires_in: 0
       threadsafe: true
       failover: true
@@ -47,6 +47,7 @@ defaults: &defaults
         secret: "<%= ENV['OAUTH_GOOGLE_SECRET'] %>"
   sitemap:
     path: "sitemaps/"
+  ga_id: "<%= ENV['GA_ID'] %>"
 
 development:
   <<: *defaults
@@ -55,4 +56,7 @@ test:
   <<: *defaults
 
 production:
+  <<: *defaults
+
+staging:
   <<: *defaults
