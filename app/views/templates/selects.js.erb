@@ -1,0 +1,84 @@
+var data = <%== @data %>;
+var random_id = (Date.now() + Math.random()).toString().replace('.', '-')
+document.write('<div class="gaia-selects" id="gaia-selects-' + random_id + '"></div>');
+var main = function() {
+  var selects = $('#gaia-selects-' + random_id);
+  var city = $('<select>').attr('id', 'gaia-city-select-' + random_id)
+  var dist = $('<select>').attr('id', 'gaia-dist-select-' + random_id)
+  var zipcode = $('<input type="text">').attr('id', 'gaia-zipcode-' + random_id)
+
+  var script = document.currentScript || selects.parent().find('script')[0];
+  var params = {
+    city_input: script.getAttribute('city-input') || 'city',
+    dist_input: script.getAttribute('dist-input') || 'dist',
+    zipcode_input: script.getAttribute('zipcode-input' || 'zipcode'),
+    zipcode_value: script.getAttribute('zipcode-value' || ''),
+    city_value: script.getAttribute('city-value' || ''),
+    dist_value: script.getAttribute('dist-value' || ''),
+    zipcode_prefix: script.getAttribute('zipcode-prefix'),
+    disable_zipcode: script.getAttribute('disable-zipcode')
+  }
+  city.attr('name', params['city_input']);
+  dist.attr('name', params['dist_input']);
+
+  zipcode.attr('name', params['zipcode_input']);
+  zipcode.val(params['zipcode_value']);
+  zipcode.attr('placeholder', '郵遞區號')
+
+  var selected_city = params['city_value'];
+  var selected_dist = params['dist_value'];
+  var dist_name_with_zipcode = !(params['zipcode_prefix'] == 'false');
+  var disable_zipcode_input = params['disable_zipcode'] == 'true'
+
+  // bind events
+  city.on('change', function() {
+    dist.trigger('reset');
+    if(city.val() == '') return;
+    var cell = data.filter(function(cell) { return cell.city.name == city.val(); })[0];
+    cell.dists.forEach(function(dist_obj) {
+      var text = dist_name_with_zipcode ? dist_obj.zipcode + ' ' + dist_obj.name : dist_obj.name;
+      dist.append($('<option>', {
+        'value': dist_obj.name,
+        'text':  text
+      }).attr('data-zipcode', dist_obj.zipcode));
+    })
+  });
+
+  dist.on('reset', function() {
+    dist.html('<option>請選擇鄉鎮區</option>')
+  });
+
+  dist.on('change', function() {
+    if(disable_zipcode_input || dist.val() == '') return;
+    var zipcode_value = dist.find(':selected').attr('data-zipcode');
+    zipcode.val(zipcode_value);
+  });
+
+  // insert city select
+  city.append('<option>請選擇城市</option>')
+  dist.trigger('reset');
+  data.forEach(function(cell) {
+    var city_name = cell.city.name;
+    var selected = city_name == selected_city;
+    city.append($('<option>', {
+      'value': city_name,
+      'text':  city_name,
+      'selected': selected
+    }));
+    if(selected) {
+      city.trigger('change');
+      if(selected_dist != '') {
+        dist.find('[value=' + selected_dist + ']').attr('selected', true);
+        dist.trigger('change');
+      }
+    }
+  });
+
+  selects.append($('<div>').addClass('gaia-cities').append(city));
+  selects.append($('<div>').addClass('gaia-dists').append(dist));
+  if(!disable_zipcode_input) {
+    selects.append($('<div>').addClass('gaia-zipcode').append(zipcode));
+  }
+  $('#gaia-selects-' + random_id).parent().trigger('gaia-loaded')
+}
+<%= render partial: 'templates/load_jquery' %>
