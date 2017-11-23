@@ -1,7 +1,7 @@
 var data = <%== @data %>;
-var random_id = (Date.now() + Math.random()).toString().replace('.', '-')
+random_id = (Date.now() + Math.random()).toString().replace('.', '-')
 document.write('<div class="gaia-selects" id="gaia-selects-' + random_id + '"></div>');
-var main = function() {
+var main = function(random_id) {
   var selects = $('#gaia-selects-' + random_id);
   var city = $('<select>').attr('id', 'gaia-city-select-' + random_id)
   var dist = $('<select>').attr('id', 'gaia-dist-select-' + random_id)
@@ -22,11 +22,11 @@ var main = function() {
   dist.attr('name', params['dist_input']);
 
   zipcode.attr('name', params['zipcode_input']);
-  zipcode.val(params['zipcode_value']);
   zipcode.attr('placeholder', '郵遞區號')
 
   var selected_city = params['city_value'];
   var selected_dist = params['dist_value'];
+  var zipcode_value = params['zipcode_value']
   var dist_name_with_zipcode = !(params['zipcode_prefix'] == 'false');
   var disable_zipcode_input = params['disable_zipcode'] == 'true'
 
@@ -65,11 +65,16 @@ var main = function() {
       'text':  city_name,
       'selected': selected
     }));
+    // assign default value
     if(selected) {
       city.trigger('change');
       if(selected_dist != '') {
         dist.find('[value=' + selected_dist + ']').attr('selected', true);
         dist.trigger('change');
+        console.log(zipcode_value)
+        if(zipcode_value != '' && zipcode_value != null) {
+          zipcode.val(zipcode_value);
+        }
       }
     }
   });

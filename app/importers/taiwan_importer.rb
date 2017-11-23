@@ -18,12 +18,10 @@ class TaiwanImporter < BaseImporter
 
   def array_dists(city)
     city_name = city[:name]
-    tmps = content.scan(/<tr align="center">.*?<td><b><a href="\/wiki\/[^"]+?" title="[^"]+">(.+?)<\/a>.+?<\/a>(.+?)<\/tr>/m)
-    content = ''
-    tmps.each { |tmp| content = tmp[1] if tmp[0] == city_name }
-    if content.present?
+    city_content = content.scan(/<tr align="center">.*?<td><b><a href="\/wiki\/[^"]+?" title="[^"]+">#{city_name}<\/a>(.+?)<\/tr>/m)[0][0]
+    if city_content.present?
       dists = []
-      content.scan(/title="([^"]+)"( class="mw\-redirect")*>([^<]+)<\/a>/m).each do |tmp|
+      city_content.scan(/title="([^"]+)"( class="mw\-redirect")*>([^<]+)<\/a>/m).each do |tmp|
         dist_name = clean_name(tmp[2].force_encoding("UTF-8"))
         data = parse_dist_type_and_zip_code(city_name, dist_name)
         dists << { name: dist_name }.merge(data)
