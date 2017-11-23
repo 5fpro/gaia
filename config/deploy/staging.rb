@@ -5,7 +5,7 @@ set :ssh_options, {
   forward_agent: true
 }
 # Config@initial
-server = 'myapp.5fpro.com'
+server = 'gaia.5fpro.com'
 role :app,                server
 role :web,                server
 role :db,                 server
