@@ -49,7 +49,7 @@ class TaiwanImporter < BaseImporter
 
   def parse_dist_type_and_zip_code(city_name, dist_name)
     res = content.scan(/<tr align="center">.+?<small>#{city_name}<\/small>.+?>#{dist_name}<.+?title="[^"]+">([^<]+)<\/a>.+?<td>([0-9]+)<\/td>[\n\r]+<\/tr>/m).first
-    { type_name: res[0], zip_code: res[1] }
+    { type_name: res[0], zipcode: res[1] }
   end
 
   def parse_city_type_name(city_name)
