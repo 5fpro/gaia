@@ -3,8 +3,12 @@ Gaia5FPRO = {
   random_id: function() { return (Date.now() + Math.random()).toString().replace('.', '-') },
   html: function(random_id) { return '<div class="gaia-selects" id="gaia-selects-' + random_id + '" data-gaia-id="' + random_id + '"></div>' }
 }
-var random_id = Gaia5FPRO.random_id();
-document.write(Gaia5FPRO.html(random_id));
+var random_id = Gaia5FPRO.random_id()
+if(document.readyState != 'loading') {
+  document.currentScript.parentNode.innerHTML = document.currentScript.parentNode.innerHTML + Gaia5FPRO.html(random_id)
+} else {
+  document.write(Gaia5FPRO.html(random_id))
+}
 Gaia5FPRO.load_selects = function(script) {
   var random_id = Gaia5FPRO.random_id();
   script.after(Gaia5FPRO.html(random_id))

@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'base#index'
-  get '/selects', to: 'base#selects'
+  get '/selects', to: 'base#selects', as: :selects
   get '/robots.txt', to: 'base#robots', defaults: { format: 'text' }
 
   namespace :admin do
