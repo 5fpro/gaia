@@ -19,7 +19,7 @@ var loadjQuery = function(random_id, callback){
   document.getElementsByTagName("head")[0].appendChild(script);
 }
 if(typeof(jQuery) == 'undefined') {
-  loadjQuery(random_id, main);
+  loadjQuery(random_id, Gaia5FPRO.generate_selects);
 } else {
-  main(random_id);
+  Gaia5FPRO.generate_selects(random_id);
 }

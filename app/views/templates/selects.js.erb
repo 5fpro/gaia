@@ -1,7 +1,16 @@
 var data = <%== @data %>;
-random_id = (Date.now() + Math.random()).toString().replace('.', '-')
-document.write('<div class="gaia-selects" id="gaia-selects-' + random_id + '"></div>');
-var main = function(random_id) {
+Gaia5FPRO = {
+  random_id: function() { return (Date.now() + Math.random()).toString().replace('.', '-') },
+  html: function(random_id) { return '<div class="gaia-selects" id="gaia-selects-' + random_id + '" data-gaia-id="' + random_id + '"></div>' }
+}
+var random_id = Gaia5FPRO.random_id();
+document.write(Gaia5FPRO.html(random_id));
+Gaia5FPRO.load_selects = function(script) {
+  var random_id = Gaia5FPRO.random_id();
+  script.after(Gaia5FPRO.html(random_id))
+  Gaia5FPRO.generate_selects(random_id)
+}
+Gaia5FPRO.generate_selects = function(random_id) {
   var selects = $('#gaia-selects-' + random_id);
   var city = $('<select>').attr('id', 'gaia-city-select-' + random_id)
   var dist = $('<select>').attr('id', 'gaia-dist-select-' + random_id)
@@ -71,7 +80,6 @@ var main = function(random_id) {
       if(selected_dist != '') {
         dist.find('[value=' + selected_dist + ']').attr('selected', true);
         dist.trigger('change');
-        console.log(zipcode_value)
         if(zipcode_value != '' && zipcode_value != null) {
           zipcode.val(zipcode_value);
         }
