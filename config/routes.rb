@@ -18,8 +18,12 @@ Rails.application.routes.draw do
   end
 
   root to: 'base#index'
-  get '/selects', to: 'base#selects', as: :selects
+
   get '/robots.txt', to: 'base#robots', defaults: { format: 'text' }
+
+  resource :templates, only: [], path: 'gaia/src' do
+    get :taiwan
+  end
 
   namespace :admin do
     root to: 'base#index', as: :root
