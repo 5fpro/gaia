@@ -1,4 +1,4 @@
-var data = <%== @data %>;
+var data = <%== assigns[:data] || @data %>;
 Gaia5FPRO = {
   random_id: function() { return (Date.now() + Math.random()).toString().replace('.', '-') },
   html: function(random_id) { return '<div class="gaia-selects" id="gaia-selects-' + random_id + '" data-gaia-id="' + random_id + '"></div>' }
@@ -29,7 +29,11 @@ Gaia5FPRO.generate_selects = function(random_id) {
     city_value: script.getAttribute('city-value' || ''),
     dist_value: script.getAttribute('dist-value' || ''),
     zipcode_prefix: script.getAttribute('zipcode-prefix'),
-    disable_zipcode: script.getAttribute('disable-zipcode')
+    disable_zipcode: script.getAttribute('disable-zipcode'),
+    wrapper_tag: script.getAttribute('wrapper-tag') || 'div',
+    select_class: script.getAttribute('select-class') || '',
+    input_class: script.getAttribute('input-class') || ''
+
   }
   city.attr('name', params['city_input']);
   dist.attr('name', params['dist_input']);
@@ -42,6 +46,13 @@ Gaia5FPRO.generate_selects = function(random_id) {
   var zipcode_value = params['zipcode_value']
   var dist_name_with_zipcode = !(params['zipcode_prefix'] == 'false');
   var disable_zipcode_input = params['disable_zipcode'] == 'true'
+  var wrapper_tag = params['wrapper_tag']
+  var input_class = params['input_class']
+  var select_class = params['select_class']
+
+  city.addClass(select_class)
+  dist.addClass(select_class)
+  zipcode.addClass(input_class)
 
   // bind events
   city.on('change', function() {
@@ -91,10 +102,10 @@ Gaia5FPRO.generate_selects = function(random_id) {
     }
   });
 
-  selects.append($('<div>').addClass('gaia-cities').append(city));
-  selects.append($('<div>').addClass('gaia-dists').append(dist));
+  selects.append($('<' + wrapper_tag + '>').addClass('gaia-cities').append(city));
+  selects.append($('<' + wrapper_tag + '>').addClass('gaia-dists').append(dist));
   if(!disable_zipcode_input) {
-    selects.append($('<div>').addClass('gaia-zipcode').append(zipcode));
+    selects.append($('<' + wrapper_tag + '>').addClass('gaia-zipcode').append(zipcode));
   }
   $('#gaia-selects-' + random_id).parent().trigger('gaia-loaded')
 }
