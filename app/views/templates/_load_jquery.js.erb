@@ -1,4 +1,4 @@
-var loadjQuery = function(callback){
+var loadjQuery = function(random_id, callback){
   url = '//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'
   var script = document.createElement("script")
   script.type = "text/javascript";
@@ -7,20 +7,19 @@ var loadjQuery = function(callback){
       if (script.readyState == "loaded" ||
           script.readyState == "complete"){
         script.onreadystatechange = null;
-        callback();
+        callback(random_id);
       }
     };
   } else {  //Others
     script.onload = function(){
-      callback();
+      callback(random_id);
     };
   }
   script.src = url;
   document.getElementsByTagName("head")[0].appendChild(script);
 }
 if(typeof(jQuery) == 'undefined') {
-  console.log('loading jquery')
-  loadjQuery(main);
+  loadjQuery(random_id, Gaia5FPRO.generate_selects);
 } else {
-  main();
+  Gaia5FPRO.generate_selects(random_id);
 }
