@@ -31,3 +31,4 @@
 /node_modules
 /yarn-error.log
 /docs/dist/*.js
+!/docs/dist/.gitkeep
