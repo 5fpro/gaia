@@ -30,4 +30,4 @@
 /.env.production
 /node_modules
 /yarn-error.log
-/docs/gaia/dist/*.js
+/docs/dist/*.js
