@@ -10,7 +10,7 @@ class JsCompiler
     end
 
     def to_file(name, dist = nil, compile_params: {})
-      dist ||= Rails.root.join('public', 'gaia', 'dist', "#{name.to_s.downcase}.js")
+      dist ||= Rails.root.join('public', 'dist', "#{name.to_s.downcase}.js")
       IO.write(dist, compile(name, compile_params.symbolize_keys))
     end
 
