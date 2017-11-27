@@ -1,7 +1,20 @@
-var data = <%== @data %>;
-var random_id = (Date.now() + Math.random()).toString().replace('.', '-')
-document.write('<div class="gaia-selects" id="gaia-selects-' + random_id + '"></div>');
-var main = function() {
+var data = <%== assigns[:data] || @data %>;
+Gaia5FPRO = {
+  random_id: function() { return (Date.now() + Math.random()).toString().replace('.', '-') },
+  html: function(random_id) { return '<div class="gaia-selects" id="gaia-selects-' + random_id + '" data-gaia-id="' + random_id + '"></div>' }
+}
+var random_id = Gaia5FPRO.random_id()
+if(document.readyState != 'loading') {
+  document.currentScript.parentNode.innerHTML = document.currentScript.parentNode.innerHTML + Gaia5FPRO.html(random_id)
+} else {
+  document.write(Gaia5FPRO.html(random_id))
+}
+Gaia5FPRO.load_selects = function(script) {
+  var random_id = Gaia5FPRO.random_id();
+  script.after(Gaia5FPRO.html(random_id))
+  Gaia5FPRO.generate_selects(random_id)
+}
+Gaia5FPRO.generate_selects = function(random_id) {
   var selects = $('#gaia-selects-' + random_id);
   var city = $('<select>').attr('id', 'gaia-city-select-' + random_id)
   var dist = $('<select>').attr('id', 'gaia-dist-select-' + random_id)
@@ -16,19 +29,30 @@ var main = function() {
     city_value: script.getAttribute('city-value' || ''),
     dist_value: script.getAttribute('dist-value' || ''),
     zipcode_prefix: script.getAttribute('zipcode-prefix'),
-    disable_zipcode: script.getAttribute('disable-zipcode')
+    disable_zipcode: script.getAttribute('disable-zipcode'),
+    wrapper_tag: script.getAttribute('wrapper-tag') || 'div',
+    select_class: script.getAttribute('select-class') || '',
+    input_class: script.getAttribute('input-class') || ''
+
   }
   city.attr('name', params['city_input']);
   dist.attr('name', params['dist_input']);
 
   zipcode.attr('name', params['zipcode_input']);
-  zipcode.val(params['zipcode_value']);
   zipcode.attr('placeholder', '郵遞區號')
 
   var selected_city = params['city_value'];
   var selected_dist = params['dist_value'];
+  var zipcode_value = params['zipcode_value']
   var dist_name_with_zipcode = !(params['zipcode_prefix'] == 'false');
   var disable_zipcode_input = params['disable_zipcode'] == 'true'
+  var wrapper_tag = params['wrapper_tag']
+  var input_class = params['input_class']
+  var select_class = params['select_class']
+
+  city.addClass(select_class)
+  dist.addClass(select_class)
+  zipcode.addClass(input_class)
 
   // bind events
   city.on('change', function() {
@@ -65,19 +89,23 @@ var main = function() {
       'text':  city_name,
       'selected': selected
     }));
+    // assign default value
     if(selected) {
       city.trigger('change');
       if(selected_dist != '') {
         dist.find('[value=' + selected_dist + ']').attr('selected', true);
         dist.trigger('change');
+        if(zipcode_value != '' && zipcode_value != null) {
+          zipcode.val(zipcode_value);
+        }
       }
     }
   });
 
-  selects.append($('<div>').addClass('gaia-cities').append(city));
-  selects.append($('<div>').addClass('gaia-dists').append(dist));
+  selects.append($('<' + wrapper_tag + '>').addClass('gaia-cities').append(city));
+  selects.append($('<' + wrapper_tag + '>').addClass('gaia-dists').append(dist));
   if(!disable_zipcode_input) {
-    selects.append($('<div>').addClass('gaia-zipcode').append(zipcode));
+    selects.append($('<' + wrapper_tag + '>').addClass('gaia-zipcode').append(zipcode));
   }
   $('#gaia-selects-' + random_id).parent().trigger('gaia-loaded')
 }
