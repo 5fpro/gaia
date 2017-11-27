@@ -4,7 +4,6 @@ namespace :build do
     from = Rails.root.join('public', 'dist')
     to = Rails.root.join('docs', 'dist')
     `cp #{from}/* #{to}/`
-    byebug
     `git checkout master`
     `git pull origin master`
     `git add docs/dist`
