@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   root to: 'base#index'
 
   get '/robots.txt', to: 'base#robots', defaults: { format: 'text' }
-
+  get '/demo', to: 'base#demo', as: :demo
   resource :templates, only: [], path: 'gaia/src' do
     get :taiwan
   end
