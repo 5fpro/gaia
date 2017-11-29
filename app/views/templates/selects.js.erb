@@ -5,7 +5,14 @@ Gaia5FPRO = {
 }
 var random_id = Gaia5FPRO.random_id()
 if(document.readyState != 'loading') {
-  document.currentScript.parentNode.innerHTML = document.currentScript.parentNode.innerHTML + Gaia5FPRO.html(random_id)
+  var parentNode = document.currentScript.parentNode
+  parentNode.removeChild(parentNode.getElementsByClassName('gaia-selects')[0])
+  var tmp = document.createElement('div');
+  var lastTmp = document.createElement('div');
+  tmp.innerHTML = Gaia5FPRO.html(random_id)
+  parentNode.appendChild(lastTmp)
+  parentNode.insertBefore(tmp.childNodes[0], document.currentScript.nextSibling)
+  parentNode.removeChild(lastTmp)
 } else {
   document.write(Gaia5FPRO.html(random_id))
 }
