@@ -6,7 +6,10 @@ Gaia5FPRO = {
 var random_id = Gaia5FPRO.random_id()
 if(document.readyState != 'loading') {
   var parentNode = document.currentScript.parentNode
-  parentNode.removeChild(parentNode.getElementsByClassName('gaia-selects')[0])
+  var els = parentNode.getElementsByClassName('gaia-selects')
+  if(els.length > 0) {
+    parentNode.removeChild(els[0]);
+  }
   var tmp = document.createElement('div');
   var lastTmp = document.createElement('div');
   tmp.innerHTML = Gaia5FPRO.html(random_id)
