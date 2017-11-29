@@ -8,9 +8,9 @@ namespace :build do
     `cp -R #{from} #{tmp}/`
     `git checkout master`
     `cp -R #{tmp}/dist/* #{to}/`
-    `git pull origin master`
     `git add docs/dist`
     `git commit -m 'deploy at #{Time.now}'`
+    `git pull origin master`
     `git push origin master`
   end
 
