@@ -59,6 +59,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   var wrapper_tag = params['wrapper_tag']
   var input_class = params['input_class']
   var select_class = params['select_class']
+  var city_zipcodes = {}
 
   city.addClass(select_class)
   dist.addClass(select_class)
@@ -76,6 +77,11 @@ Gaia5FPRO.generate_selects = function(random_id) {
         'text':  text
       }).attr('data-zipcode', dist_obj.zipcode));
     })
+    if(city.attr('data-dist-value')) {
+      dist.val(city.attr('data-dist-value'))
+      dist.trigger('change')
+      city.removeAttr('data-dist-value')
+    }
   });
 
   dist.on('reset', function() {
@@ -99,6 +105,9 @@ Gaia5FPRO.generate_selects = function(random_id) {
       'text':  city_name,
       'selected': selected
     }));
+    cell.dists.forEach(function(data_dist) {
+      city_zipcodes[data_dist.zipcode] = { city: city_name, dist: data_dist.name }
+    })
     // assign default value
     if(selected) {
       city.trigger('change');
@@ -111,6 +120,17 @@ Gaia5FPRO.generate_selects = function(random_id) {
       }
     }
   });
+  zipcode.on('change', function() {
+    tmp = city_zipcodes[zipcode.val()]
+    if(tmp && tmp.city) {
+      city.val(tmp.city)
+      dist_value = tmp.dist
+      if(dist_value) {
+        city.attr('data-dist-value', dist_value)
+      }
+      city.trigger('change')
+    }
+  })
 
   selects.append($('<' + wrapper_tag + '>').addClass('gaia-cities').append(city));
   selects.append($('<' + wrapper_tag + '>').addClass('gaia-dists').append(dist));
