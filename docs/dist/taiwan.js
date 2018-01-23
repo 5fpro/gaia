@@ -85,7 +85,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   });
 
   dist.on('reset', function() {
-    dist.html('<option>請選擇鄉鎮區</option>')
+    dist.html('<option value>請選擇鄉鎮區</option>')
   });
 
   dist.on('change', function() {
@@ -95,7 +95,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   });
 
   // insert city select
-  city.append('<option>請選擇城市</option>')
+  city.append('<option value>請選擇城市</option>')
   dist.trigger('reset');
   data.forEach(function(cell) {
     var city_name = cell.city.name;
