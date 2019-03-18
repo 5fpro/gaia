@@ -16,6 +16,7 @@ namespace :build do
 
   task taiwan: :environment do
     JsCompiler.to_file(:taiwan)
+    `cp #{Rails.root.join('db', 'countries', 'taiwan.json')} #{Rails.root.join('public', 'dist')}`
   end
 
 end
