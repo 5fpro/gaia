@@ -42,14 +42,18 @@ Gaia5FPRO.generate_selects = function(random_id) {
     disable_zipcode: script.getAttribute('disable-zipcode'),
     wrapper_tag: script.getAttribute('wrapper-tag') || 'div',
     select_class: script.getAttribute('select-class') || '',
-    input_class: script.getAttribute('input-class') || ''
+    input_class: script.getAttribute('input-class') || '',
+    city_placeholder: script.getAttribute('city-placeholder') || '請選擇城市',
+    dist_placeholder: script.getAttribute('dist-placeholder') || '請選擇鄉鎮區',
+    zipcode_placeholder: script.getAttribute('zipcode-placeholder') || '郵遞區號',
+    zipcode_front: script.getAttribute('zipcode-front') == 'true' || false
 
   }
   city.attr('name', params['city_input']);
   dist.attr('name', params['dist_input']);
 
   zipcode.attr('name', params['zipcode_input']);
-  zipcode.attr('placeholder', '郵遞區號')
+  zipcode.attr('placeholder', params['zipcode_placeholder'])
 
   var selected_city = params['city_value'];
   var selected_dist = params['dist_value'];
@@ -85,7 +89,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   });
 
   dist.on('reset', function() {
-    dist.html('<option value>請選擇鄉鎮區</option>')
+    dist.html('<option value>' + params['dist_placeholder'] + '</option>')
   });
 
   dist.on('change', function() {
@@ -95,7 +99,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   });
 
   // insert city select
-  city.append('<option value>請選擇城市</option>')
+  city.append('<option value>' + params['city_placeholder'] + '</option>')
   dist.trigger('reset');
   data.forEach(function(cell) {
     var city_name = cell.city.name;
@@ -132,10 +136,14 @@ Gaia5FPRO.generate_selects = function(random_id) {
     }
   })
 
+  zipcode_html = $('<' + wrapper_tag + '>').addClass('gaia-zipcode').append(zipcode)
+  if(!disable_zipcode_input && params['zipcode_front']) {
+    selects.append(zipcode_html);
+  }
   selects.append($('<' + wrapper_tag + '>').addClass('gaia-cities').append(city));
   selects.append($('<' + wrapper_tag + '>').addClass('gaia-dists').append(dist));
-  if(!disable_zipcode_input) {
-    selects.append($('<' + wrapper_tag + '>').addClass('gaia-zipcode').append(zipcode));
+  if(!disable_zipcode_input && !params['zipcode_front']) {
+    selects.append(zipcode_html);
   }
   $('#gaia-selects-' + random_id).parent().trigger('gaia-loaded')
 }
