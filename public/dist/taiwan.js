@@ -41,6 +41,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
     zipcode_prefix: script.getAttribute('zipcode-prefix'),
     disable_zipcode: script.getAttribute('disable-zipcode'),
     wrapper_tag: script.getAttribute('wrapper-tag') || 'div',
+    wrapper_class: script.getAttribute('wrapper-class') || '',
     select_class: script.getAttribute('select-class') || '',
     input_class: script.getAttribute('input-class') || '',
     city_placeholder: script.getAttribute('city-placeholder') || '請選擇城市',
@@ -61,6 +62,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   var dist_name_with_zipcode = !(params['zipcode_prefix'] == 'false');
   var disable_zipcode_input = params['disable_zipcode'] == 'true'
   var wrapper_tag = params['wrapper_tag']
+  var wrapper_class = params['wrapper_class']
   var input_class = params['input_class']
   var select_class = params['select_class']
   var city_zipcodes = {}
@@ -136,12 +138,12 @@ Gaia5FPRO.generate_selects = function(random_id) {
     }
   })
 
-  zipcode_html = $('<' + wrapper_tag + '>').addClass('gaia-zipcode').append(zipcode)
+  zipcode_html = $('<' + wrapper_tag + '>').addClass(wrapper_class).addClass('gaia-zipcode').append(zipcode)
   if(!disable_zipcode_input && params['zipcode_front']) {
     selects.append(zipcode_html);
   }
-  selects.append($('<' + wrapper_tag + '>').addClass('gaia-cities').append(city));
-  selects.append($('<' + wrapper_tag + '>').addClass('gaia-dists').append(dist));
+  selects.append($('<' + wrapper_tag + '>').addClass(wrapper_class).addClass('gaia-cities').append(city));
+  selects.append($('<' + wrapper_tag + '>').addClass(wrapper_class).addClass('gaia-dists').append(dist));
   if(!disable_zipcode_input && !params['zipcode_front']) {
     selects.append(zipcode_html);
   }
