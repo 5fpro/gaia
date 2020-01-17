@@ -18,8 +18,14 @@ var loadjQuery = function(random_id, callback){
   script.src = url;
   document.getElementsByTagName("head")[0].appendChild(script);
 }
-if(typeof(jQuery) == 'undefined') {
-  loadjQuery(random_id, Gaia5FPRO.generate_selects);
-} else {
-  Gaia5FPRO.generate_selects(random_id);
+
+var run = function(random_id) {
+  document.addEventListener("DOMContentLoaded", function() {
+    if(typeof(jQuery) == 'undefined') {
+      loadjQuery(random_id, Gaia5FPRO.generate_selects);
+    } else {
+      Gaia5FPRO.generate_selects(random_id);
+    }
+  })
 }
+run(random_id)

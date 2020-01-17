@@ -4,21 +4,20 @@ Gaia5FPRO = {
   html: function(random_id) { return '<div class="gaia-selects" id="gaia-selects-' + random_id + '" data-gaia-id="' + random_id + '"></div>' }
 }
 var random_id = Gaia5FPRO.random_id()
+var parentNode = document.currentScript.parentNode
 if(document.readyState != 'loading') {
-  var parentNode = document.currentScript.parentNode
   var els = parentNode.getElementsByClassName('gaia-selects')
   if(els.length > 0) {
     parentNode.removeChild(els[0]);
   }
-  var tmp = document.createElement('div');
-  var lastTmp = document.createElement('div');
-  tmp.innerHTML = Gaia5FPRO.html(random_id)
-  parentNode.appendChild(lastTmp)
-  parentNode.insertBefore(tmp.childNodes[0], document.currentScript.nextSibling)
-  parentNode.removeChild(lastTmp)
-} else {
-  document.write(Gaia5FPRO.html(random_id))
 }
+var tmp = document.createElement('div');
+var lastTmp = document.createElement('div');
+tmp.innerHTML = Gaia5FPRO.html(random_id)
+parentNode.appendChild(lastTmp)
+parentNode.insertBefore(tmp.childNodes[0], document.currentScript.nextSibling)
+parentNode.removeChild(lastTmp)
+
 Gaia5FPRO.load_selects = function(script) {
   var random_id = Gaia5FPRO.random_id();
   script.after(Gaia5FPRO.html(random_id))
