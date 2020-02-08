@@ -31,6 +31,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
 
   var script = document.currentScript || selects.parent().find('script')[0];
   var params = {
+    excluded_data: (script.getAttribute('excluded-data') || '').split(','),
     city_input: script.getAttribute('city-input') || 'city',
     dist_input: script.getAttribute('dist-input') || 'dist',
     zipcode_input: script.getAttribute('zipcode-input' || 'zipcode'),
@@ -76,6 +77,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
     if(city.val() == '') return;
     var cell = data.filter(function(cell) { return cell.city.name == city.val(); })[0];
     cell.dists.forEach(function(dist_obj) {
+      if(params.excluded_data.includes(dist_obj.zipcode) || params.excluded_data.includes(dist_obj.name)) return;
       var text = dist_name_with_zipcode ? dist_obj.zipcode + ' ' + dist_obj.name : dist_obj.name;
       dist.append($('<option>', {
         'value': dist_obj.name,
@@ -104,6 +106,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
   dist.trigger('reset');
   data.forEach(function(cell) {
     var city_name = cell.city.name;
+    if(params.excluded_data.includes(city_name)) return;
     var selected = city_name == selected_city;
     city.append($('<option>', {
       'value': city_name,
@@ -111,6 +114,7 @@ Gaia5FPRO.generate_selects = function(random_id) {
       'selected': selected
     }));
     cell.dists.forEach(function(data_dist) {
+      if(params.excluded_data.includes(data_dist.zipcode) || params.excluded_data.includes(data_dist.name)) return;
       city_zipcodes[data_dist.zipcode] = { city: city_name, dist: data_dist.name }
     })
     // assign default value
