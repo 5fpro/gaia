@@ -3,7 +3,7 @@ Gaia5FPRO = {
   random_id: function() { return (Date.now() + Math.random()).toString().replace('.', '-') },
   html: function(random_id) { return '<div class="gaia-selects" id="gaia-selects-' + random_id + '" data-gaia-id="' + random_id + '"></div>' }
 }
-var random_id = Gaia5FPRO.random_id()
+var randomId = Gaia5FPRO.random_id()
 var parentNode = document.currentScript.parentNode
 if(document.readyState != 'loading') {
   var els = parentNode.getElementsByClassName('gaia-selects')
@@ -13,15 +13,15 @@ if(document.readyState != 'loading') {
 }
 var tmp = document.createElement('div');
 var lastTmp = document.createElement('div');
-tmp.innerHTML = Gaia5FPRO.html(random_id)
+tmp.innerHTML = Gaia5FPRO.html(randomId)
 parentNode.appendChild(lastTmp)
 parentNode.insertBefore(tmp.childNodes[0], document.currentScript.nextSibling)
 parentNode.removeChild(lastTmp)
 
 Gaia5FPRO.load_selects = function(script) {
-  var random_id = Gaia5FPRO.random_id();
-  script.after(Gaia5FPRO.html(random_id))
-  Gaia5FPRO.generate_selects(random_id)
+  var randomId = Gaia5FPRO.random_id();
+  script.after(Gaia5FPRO.html(randomId))
+  Gaia5FPRO.generate_selects(randomId)
 }
 Gaia5FPRO.generate_selects = function(random_id) {
   var selects = $('#gaia-selects-' + random_id);
@@ -174,7 +174,7 @@ var loadjQuery = function(random_id, callback){
 }
 
 var run = function(random_id) {
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener('DOMContentLoaded', function() {
     if(typeof(jQuery) == 'undefined') {
       loadjQuery(random_id, Gaia5FPRO.generate_selects);
     } else {
@@ -182,5 +182,14 @@ var run = function(random_id) {
     }
   })
 }
-run(random_id)
+
+if(typeof(Turbolinks) != 'undefined' && document.readyState == 'complete') {
+  if(typeof(jQuery) == 'undefined') {
+    loadjQuery(randomId, Gaia5FPRO.generate_selects);
+  } else {
+    Gaia5FPRO.generate_selects(randomId);
+  }
+} else {
+  run(randomId);
+}
 
