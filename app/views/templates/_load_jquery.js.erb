@@ -20,7 +20,7 @@ var loadjQuery = function(random_id, callback){
 }
 
 var run = function(random_id) {
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener('DOMContentLoaded', function() {
     if(typeof(jQuery) == 'undefined') {
       loadjQuery(random_id, Gaia5FPRO.generate_selects);
     } else {
@@ -28,4 +28,13 @@ var run = function(random_id) {
     }
   })
 }
-run(random_id)
+
+if(typeof(Turbolinks) != 'undefined' && document.readyState == 'complete') {
+  if(typeof(jQuery) == 'undefined') {
+    loadjQuery(randomId, Gaia5FPRO.generate_selects);
+  } else {
+    Gaia5FPRO.generate_selects(randomId);
+  }
+} else {
+  run(randomId);
+}
