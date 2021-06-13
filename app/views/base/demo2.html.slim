@@ -1,0 +1,14 @@
+- content_for :footer do
+  /= javascript_include_tag '/gaia/src/selects_v2.js', 'data-turbolinks-track': true
+  = javascript_include_tag 'https://demeter.5fpro.com/tw/zipcode-selector.js', 'data-turbolinks-track': true
+
+input.js-gaia-zipcode data-city="#city" data-dist="#dist" value="220"/
+select#city placeholder="選擇縣市"
+select#dist placeholder="選擇鄉鎮區"
+
+= link_to '首頁', root_path
+
+div
+  input.js-gaia-zipcode data-city="#city2" data-dist="#dist2"/
+  select#city2 placeholder="選擇縣市"
+  select#dist2 placeholder="選擇鄉鎮區"

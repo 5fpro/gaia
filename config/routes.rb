@@ -21,8 +21,10 @@ Rails.application.routes.draw do
 
   get '/robots.txt', to: 'base#robots', defaults: { format: 'text' }
   get '/demo', to: 'base#demo', as: :demo
+  get '/demo2', to: 'base#demo2', as: :demo2
   resource :templates, only: [], path: 'gaia/src' do
     get :taiwan
+    get :selects_v2
   end
 
   namespace :admin do
