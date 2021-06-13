@@ -82,7 +82,7 @@ $Demeter.initTWZipcodeSelector = function(trigger_selector) {
   var is_exclude = function(value) {
     return this.exclude.includes(value);
   }
-  trigger_selector ||= '.js-demeter-tw-zipcode-selector'
+  trigger_selector = trigger_selector || '.js-demeter-tw-zipcode-selector';
   $(trigger_selector).each(function() {
     var zipcode = this;
     zipcode.citySelect = $($(zipcode).data('city'));
