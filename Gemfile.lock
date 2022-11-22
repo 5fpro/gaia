@@ -119,7 +119,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.3)
-    dalli (2.7.6)
+    dalli (3.2.3)
     database_cleaner (1.6.2)
     devise (4.3.0)
       bcrypt (~> 3.0)
